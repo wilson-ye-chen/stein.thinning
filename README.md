@@ -76,6 +76,7 @@ demo_stan()
 * `make_imq(smp, scr, pre="sclmed")` returns IMQ kernel with a predefined IPM.
 * `make_precon(smp, scr, pre="sclmed")` returns a predefined IPM.
 * `vfk0_imq(a, b, sa, sb, linv)` evaluates IMQ kernel for any IPM.
+
 IPM: inverse preconditioning matrix.
 IMQ: inverse multi-quadric.
 KSD: Kernelized Stein discrepancy.
