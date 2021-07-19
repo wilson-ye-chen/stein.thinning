@@ -35,7 +35,7 @@ which heuristic to use for computing the preconditioning matrix by
 setting the option string `pre` to either `med`,  `sclmed`, or `smpcov`.
 For example, the default setting corresponds to:
 ```r
-idx = thin(smpl, grad, 40, pre='sclmed')
+idx <- thin(smpl, grad, 40, pre='sclmed')
 ```
 The details for each of the heuristics are documented in Section 2.3 of
 the accompanying paper.
