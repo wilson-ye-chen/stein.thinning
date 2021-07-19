@@ -67,7 +67,7 @@ The above example can be found in `demo.R`. To run the RStan example:
 demo_stan()
 ```
 
-# Short Summary of Included Functions
+# Functions
 * `thin(smp, scr, m, pre="sclmed")` returns the indices of thinned `m` points.
 * `demo()` runs an example of post-processing MCMC output from CSV files.
 * `demo_stan()` runs an example of post-processing Stan output.
@@ -77,6 +77,7 @@ demo_stan()
 * `make_precon(smp, scr, pre="sclmed")` returns a predefined IPM.
 * `vfk0_imq(a, b, sa, sb, linv)` evaluates IMQ kernel for any IPM.
 
-IPM: inverse preconditioning matrix.
-IMQ: inverse multi-quadric.
-KSD: Kernelized Stein discrepancy.
+Acronyms:
+* IPM: inverse preconditioning matrix.
+* IMQ: inverse multi-quadric.
+* KSD: Kernelized Stein discrepancy.
