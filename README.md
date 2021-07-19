@@ -22,7 +22,7 @@ obtain a subset of 40 sample points by running the following code:
 ```r
 idx <- thin(smpl, grad, 40)
 ```
-The `thin` function returns a matrix containing the row indices in
+The `thin` function returns a vector containing the row indices in
 `smpl` (and `grad`) of the selected points. Please refer to `demo.R`
 as a starting example. To run the demo:
 ```r
@@ -57,10 +57,10 @@ the complexity of the model being sampled the output of Stan will always
 be a `fit` object (of `stanfit` class). The sampled points and the
 log-posterior gradients can be extracted from the returned `fit` object:
 ```r
-smp <- rstan::extract(fit, permuted=FALSE, inc_warmup=TRUE)
-smp <- smp[,,1:2]
-scr <- t(apply(smp, 1, function(x) rstan::grad_log_prob(fit, x)))
-idx <- thin(smp, scr, 40)
+smpl <- rstan::extract(fit, permuted=FALSE, inc_warmup=TRUE)
+smpl <- smpl[,,1:2]
+grad <- t(apply(smpl, 1, function(x) rstan::grad_log_prob(fit, x)))
+idx <- thin(smpl, grad, 40)
 ```
 The above example can be found in `demo.R`. To run the RStan example:
 ```r
