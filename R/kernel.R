@@ -24,13 +24,13 @@ vfk0_imq <- function(a, b, sa, sb, linv) {
 #'
 #' @param smp n-by-d matrix of n d-dimensional sample points.
 #' @param scr n-by-d matrix of gradients of log target at \code{smp}.
-#' @param pre string specifying the heuristic for computing the
-#'        preconditioner matrix, either 'med', 'sclmed', or 'smpcov'.
-#'        Alternatively, a numeric string can be passed as the single
-#'        length-scale parameter of an isotropic kernel.
+#' @param pre optional string, either "id" (default), "med", "sclmed", or
+#'        "smpcov", specifying the preconditioner to be used. Alternatively,
+#'        a numeric string can be passed as the single length-scale parameter
+#'        of an isotropic kernel.
 #' @return inverse preconditioner, d-by-d matrix.
 #' @export
-make_precon <- function(smp, scr, pre="sclmed") {
+make_precon <- function(smp, scr, pre="id") {
     sz = nrow(smp)
     dm = ncol(smp)
 
@@ -48,12 +48,27 @@ make_precon <- function(smp, scr, pre="sclmed") {
 
     # Select preconditioner
     m <- 1000
-    if (pre == "med") {
-        linv <- solve(med2(m) * diag(dm))
+    if (pre == "id") {
+        linv <- diag(dm)
+    } else if (pre == "med") {
+        m2 <- med2(m)
+        if (m2 == 0) {
+            stop("Too few unique samples in smp.")
+        }
+        linv <- solve(m2 * diag(dm))
     } else if (pre == "sclmed") {
-        linv <- solve(med2(m) / log(min(m, sz)) * diag(dm))
+        m2 <- med2(m)
+        if (m2 == 0) {
+            stop("Too few unique samples in smp.")
+        }
+        linv <- solve(m2 / log(min(m, sz)) * diag(dm))
     } else if (pre == "smpcov") {
-        linv <- solve(cov(smp))
+        c <- cov(smp)
+        v <- eigen(c, symmetric=T, only.values=T)$values
+        if (!all(v > 0)) {
+            stop("Too few unique samples in smp.")
+        }
+        linv <- solve(c)
     } else if (!is.na(as.double(pre))) {
         linv <- solve(as.double(pre) * diag(dm))
     } else {
@@ -66,13 +81,13 @@ make_precon <- function(smp, scr, pre="sclmed") {
 #'
 #' @param smp n-by-d matrix of n d-dimensional sample points.
 #' @param scr n-by-d matrix of gradients of log target at \code{smp}.
-#' @param pre string specifying the heuristic for computing the
-#'        preconditioner matrix, either 'med', 'sclmed', or 'smpcov'.
-#'        Alternatively, a numeric string can be passed as the single
-#'        length-scale parameter of an isotropic kernel.
+#' @param pre optional string, either "id" (default), "med", "sclmed", or
+#'        "smpcov", specifying the preconditioner to be used. Alternatively,
+#'        a numeric string can be passed as the single length-scale parameter
+#'        of an isotropic kernel.
 #' @return Stein kernel function.
 #' @export
-make_imq <- function(smp, scr, pre="sclmed") {
+make_imq <- function(smp, scr, pre="id") {
     linv <- make_precon(smp, scr, pre)
     vfk0 <- function(a, b, sa, sb) {
         return(vfk0_imq(a, b, sa, sb, linv))
