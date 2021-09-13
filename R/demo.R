@@ -31,9 +31,12 @@ demo <- function() {
 
     # Plot KSD curves
     dev.new()
-    plot(log(1:length(ks_smp)), log(ks_smp), xlab="log n", ylab="log KSD",
+    y1 = log(ks_smp)
+    y2 = log(ks_x)
+    plot(log(1:length(ks_smp)), y1, ylim=range(y1, y2),
+        xlab="log n", ylab="log KSD",
         type="l", col="black")
-    lines(log(1:length(ks_x)), log(ks_x), col="red")
+    lines(log(1:length(ks_x)), y2, col="red")
 }
 
 #' Post-process output from Stan
