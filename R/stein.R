@@ -15,7 +15,7 @@ ksd <- function(x, s, vfk0) {
         x_i <- kronecker(v1, x[i,, drop=F])
         s_i <- kronecker(v1, s[i,, drop=F])
         k0 <- vfk0(x_i, x[1:i,, drop=F], s_i, s[1:i,, drop=F])
-        ps <- ps + 2 * sum(k0[1:(i - 1)]) + k0[i]
+        ps <- ps + 2 * sum(k0[seq_len(i - 1)]) + k0[i]
         ks[i] <- sqrt(ps) / i
         message("KSD: ", i, " of ", n)
     }
