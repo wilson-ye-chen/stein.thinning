@@ -30,12 +30,14 @@ demo()
 ```
 
 The default usage requires no additional user input and is based on
-the `sclmed` heuristic. Alternatively, the user can choose to specify
-which heuristic to use for computing the preconditioning matrix by
-setting the option string `pre` to either `med`,  `sclmed`, or `smpcov`.
-For example, the default setting corresponds to:
+the identity (`id`) preconditioning matrix and standardised sample.
+Alternatively, the user can choose to specify which heuristic to use
+for computing the preconditioning matrix by setting the option string
+to either `id`, `med`,  `sclmed`, or `smpcov`. Standardisation can be
+disabled by setting `stnd=FALSE`. For example, the default setting
+corresponds to:
 ```r
-idx <- thin(smpl, grad, 40, pre='sclmed')
+idx <- thin(smpl, grad, 40, stnd=TRUE, pre='id')
 ```
 The details for each of the heuristics are documented in Section 2.3 of
 the accompanying paper.
@@ -68,13 +70,13 @@ demo_stan()
 ```
 
 # Functions
-* `thin(smp, scr, m, pre="sclmed")` returns the indices of thinned `m` points.
+* `thin(smp, scr, m, stnd=TRUE, pre="id")` returns indices of thinned points.
 * `demo()` runs an example of post-processing MCMC output from CSV files.
 * `demo_stan()` runs an example of post-processing Stan output.
 * `ksd(x, s, vfk0)` returns cumulative KSD values of sample `x`.
 * `kmat(x, s, vfk0)` returns a Stein kernel matrix of sample `x`.
-* `make_imq(smp, scr, pre="sclmed")` returns IMQ kernel with a predefined IPM.
-* `make_precon(smp, scr, pre="sclmed")` returns a predefined IPM.
+* `make_imq(smp, scr, pre="id")` returns IMQ kernel with a predefined IPM.
+* `make_precon(smp, scr, pre="id")` returns a predefined IPM.
 * `vfk0_imq(a, b, sa, sb, linv)` evaluates IMQ kernel for any IPM.
 
 Acronyms:
