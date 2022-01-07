@@ -4,17 +4,20 @@
 \alias{thin}
 \title{Perform Stein thinning}
 \usage{
-thin(smp, scr, m, pre = "sclmed")
+thin(smp, scr, m, stnd = TRUE, pre = "id")
 }
 \arguments{
 \item{smp}{n-by-d matrix of n d-dimensional sample points.}
 
 \item{scr}{n-by-d matrix of gradients of log target at \code{smp}.}
 
-\item{pre}{string specifying the heuristic for computing the
-preconditioner matrix, either 'med', 'sclmed', or 'smpcov'.
-Alternatively, a numeric string can be passed as the single
-length-scale parameter of an isotropic kernel.}
+\item{stnd}{optional logical, either TRUE (default) or FALSE, indicating
+whether or not to standardise the colums of \code{smp}.}
+
+\item{pre}{optional string, either "id" (default), "med", "sclmed", or
+"smpcov", specifying the preconditioner to be used. Alternatively,
+a numeric string can be passed as the single length-scale parameter
+of an isotropic kernel.}
 }
 \value{
 m-vector containing the row indices in \code{smp} (and \code{scr})
